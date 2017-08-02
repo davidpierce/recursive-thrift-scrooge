@@ -1,0 +1,34 @@
+import os
+
+THRIFT_BIN_URL = os.environ['THRIFT_BIN_URL'] # used in install-thrift
+THRIFT_LIB_PY_REQ = os.environ['THRIFT_LIB_PY_REQ']
+THRIFT_LIB_PY_URL = os.environ['THRIFT_LIB_PY_URL']
+SCROOGE_GENERATOR_URL = os.environ['SCROOGE_GENERATOR_URL']
+SCROOGE_LINTER_URL = os.environ['SCROOGE_LINTER_URL']
+
+prep_command(
+  name='install-thrift',
+  goal='compile',
+  prep_executable='build-support/scripts/install_thrift',
+)
+
+python_requirement_library(
+  name='thrift-lib-py',
+  requirements=[
+    python_requirement(THRIFT_LIB_PY_REQ, repository=THRIFT_LIB_PY_URL),
+  ],
+)
+
+jar_library(name='scrooge-gen', jars=[
+  jar(
+    org='com.twitter', name='scrooge-generator-assembly',
+    url=SCROOGE_GENERATOR_URL
+  ),
+])
+
+jar_library(name='scrooge-linter', jars=[
+  jar(
+    org='com.twitter', name='scrooge-linter-assembly',
+    url=SCROOGE_LINTER_URL
+  ),
+])

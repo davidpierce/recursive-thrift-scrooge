@@ -1,7 +1,7 @@
-import logging
-from tree.ttypes import *
-from thrift.transport.TTransport import TMemoryBuffer
+
 from thrift.protocol.TJSONProtocol import TJSONProtocol
+from thrift.transport.TTransport import TMemoryBuffer
+from tree.ttypes import *
 
 def branch(l, r):
     return Tree(branch=Branch(left=l, right=r))
@@ -23,8 +23,6 @@ def test_tree():
     protocol_out = TJSONProtocol(transport_out)
     t.write(protocol_out)
     json_out = transport_out.getvalue()
-    assert len(json_out) > 0
-    print(json_out)
     transport_in = TMemoryBuffer(json_out)
     protocol_in = TJSONProtocol(transport_in)
     u = Tree()

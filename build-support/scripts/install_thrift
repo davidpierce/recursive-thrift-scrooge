@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e 
+
+THRIFT_DIR=.pants.d/bin/thrift/mac/10.12/0.11.0-aiq
+
+if [ -x "$THRIFT_DIR/thrift" ]; then
+   echo "using $THRIFT_DIR/thrift"
+elif [ -z "$THRIFT_BIN_URL" ]; then
+   echo 'missing $THRIFT_BIN_URL'
+   exit 1
+else
+    echo "getting $THRIFT_BIN_URL"
+    mkdir -p $THRIFT_DIR
+    curl -s -L "$THRIFT_BIN_URL" > $THRIFT_DIR/thrift
+    chmod u+x $THRIFT_DIR/thrift
+fi
+
+# if pip list --format=columns | grep '^thrift'; then
+#     echo 'found thrift python library'
+# elif [ -z "$THRIFT_LIB_PY_URL" ]; then
+#    echo 'missing $THRIFT_LIB_PY_URL'
+#    exit 1
+# else
+#     echo "getting $THRIFT_LIB_PY_URL"
+#     pip install "$THRIFT_LIB_PY_URL"
+# fi
